@@ -363,20 +363,20 @@ class TextToSpeech(generics.CreateAPIView):
         if request.method == 'POST':
             text = query['text']
             lang = query['lang']
-            # pdf = request.FILES['pdf'].read() or None
-            # if pdf:
-            #     pdfreader = PyPDF4.PdfFileReader(io.BytesIO(pdf))
-            #     content = ''
-            #     for i in range(int(pdfreader.numPages)):
-            #         content += pdfreader.getPage(i).extractText() + "\n"
-            #     text = content
-            #     myobj = gTTS(text=text, lang=lang, slow= False)
-            #     myobj.save("static/speech.mp3")
-            #     music = 'ok'
-            #     context = {
-            #         'music': music
-            #     }
-            #     return JsonResponse(context)
+            pdf = request.FILES['pdf'].read() or None
+            if pdf:
+                pdfreader = PyPDF4.PdfFileReader(io.BytesIO(pdf))
+                content = ''
+                for i in range(int(pdfreader.numPages)):
+                    content += pdfreader.getPage(i).extractText() + "\n"
+                text = content
+                myobj = gTTS(text=text, lang=lang, slow= False)
+                myobj.save("static/speech.mp3")
+                music = 'ok'
+                context = {
+                    'music': music
+                }
+                return JsonResponse(context)
             myobj = gTTS(text=text, lang=lang, slow= False)
             myobj.save("static/speech.mp3")
             music = 'http://127.0.0.1:8000/static/speech.mp3'
